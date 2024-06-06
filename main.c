@@ -8,24 +8,23 @@
 #define rows 6
 #define cols 6
 
-int game[rows][cols];
-char end = ' '; //finalizar o jogo;
+char game[rows][cols];
+char end = ' '; // finalizar o jogo;
 int jogadas;
 char posicao[3];
-int posiX; //coordenada X para percorrer a matriz
-int posiY; //coordenada Y para percorrer a matriz
+int posiX; // coordenada X para percorrer a matriz
+int posiY; // coordenada Y para percorrer a matriz
 int numero1;
 int numero2;
 
-void clearScreen(); // limpa terminal
-void initializeGame(); // inicializa a matriz com números aleatórios
-void menu(); // mostra o jogo atualizado na tela
-void display(); // declaração da função display()
+void clearScreen();       // limpa terminal
+void initializeGame();    // inicializa a matriz com números aleatórios
+void menu();              // mostra o jogo atualizado na tela
+void display();           // declaração da função display
 
-int main()
-{
+int main(){
 
-    //vetor com todas as posições possiveis da calculadora
+    // vetor com todas as posições possiveis da calculadora
     char posicoes[36][3] = {"00", "01", "02", "03", "04", "05",
                              "10", "11", "12", "13", "14", "15",
                              "20", "21", "22", "23", "24", "25",
@@ -33,47 +32,49 @@ int main()
                              "40", "41", "42", "43", "44", "45",
                              "50", "51", "52", "53", "54", "55"};
 
-    //cria e inicializa o jogo
+    // cria e inicializa o jogo
     initializeGame();
 
-    while (true)
-    {
+    while (true){
 
-        //solicita as coordenadas ao usuário
-        int numeros =0; //para verificar se conseguio selecionar os dois números
-        while (numeros != 2)
-        {
+        // solicita as coordenadas ao usuário
+        int numeros = 0; // para verificar se conseguiu selecionar os dois números
+        while (numeros != 2){
+            
             clearScreen();
-            menu();
             display();
+            
+            if(numeros == 0){
+                printf("\n                              para o primerio número");
+            }else{
+                printf("\n                              para o segundo número\n");
+            }
+
+            menu();
+            
 
             fgets(posicao, 3, stdin);
             getchar();
 
             // Verifica se todas as coordenadas são dígitos
             bool coordenadasNumericas = true;
-            for (int i = 0; i < 2; i++)
-            {
-                if (!isdigit(posicao[i]))
-                {
+            for (int i = 0; i < 2; i++){
+                if(!isdigit(posicao[i])){
                     coordenadasNumericas = false;
                     break;
                 }
             }
 
-            if (!coordenadasNumericas)
-            {
-                printf("\nAs coordenadas devem ser numéricas!");
+            if (!coordenadasNumericas){
+                printf("\n                              As coordenadas devem ser numéricas!");
                 getchar(); // Para evitar que a mensagem seja imediatamente sobrescrita
                 continue;
             }
 
             bool posicaoExiste = false;
 
-            for (int z = 0; z < rows * cols; z++)
-            {
-                if (strcmp(posicao, posicoes[z]) == 0)
-                {
+            for (int z = 0; z < rows * cols; z++){
+                if (strcmp(posicao, posicoes[z]) == 0){
                     posicaoExiste = true;
 
                     posiX = posicao[0] - '0';
@@ -82,31 +83,28 @@ int main()
                 }
             }
 
-            if (!posicaoExiste)
-            {
+            if (!posicaoExiste){
                 printf("\n                              Digito Errado! Favor digitar posição correspondente ao diagrama");
                 continue;
             }
 
-            int current = game[posiX][posiY];
-            
-            //verifica se o número está disponível e computa
-            if(current == 0){
+            char current = game[posiX][posiY];
+
+            // verifica se o número está disponível e computa
+            if (current == ' '){
                 printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
                 continue;
             }else{
-                game[posiX][posiY] = 0;
+                game[posiX][posiY] = ' ';
                 numeros++;
             }
 
             if(numeros == 2)break;
+               
             
         }
-        
-        menu();
-        break;
-      
     }
+    
 
     return 0;
 }
@@ -118,19 +116,20 @@ void display()
 
 void menu()
 {
+
     printf("\n                                                  Números");
     printf("\n                                               0 1 2 3 4 5");
-    printf("\n\n                                          0    %d|%d|%d|%d|%d|%d", game[0][0], game[0][1], game[0][2], game[0][3], game[0][4], game[0][5]);
+    printf("\n\n                                          0    %c|%c|%c|%c|%c|%c", game[0][0], game[0][1], game[0][2], game[0][3], game[0][4], game[0][5]);
     printf("\n                                               -----------");
-    printf("\n                                          1    %d|%d|%d|%d|%d|%d", game[1][0], game[1][1], game[1][2], game[1][3], game[1][4], game[1][5]);
+    printf("\n                                          1    %c|%c|%c|%c|%c|%c", game[1][0], game[1][1], game[1][2], game[1][3], game[1][4], game[1][5]);
     printf("\n                                               -----------");
-    printf("\n                                          2    %d|%d|%d|%d|%d|%d", game[2][0], game[2][1], game[2][2], game[2][3], game[2][4], game[2][5]);
+    printf("\n                                          2    %c|%c|%c|%c|%c|%c", game[2][0], game[2][1], game[2][2], game[2][3], game[2][4], game[2][5]);
     printf("\n                                               -----------");
-    printf("\n                                          3    %d|%d|%d|%d|%d|%d", game[3][0], game[3][1], game[3][2], game[3][3], game[3][4], game[3][5]);
+    printf("\n                                          3    %c|%c|%c|%c|%c|%c", game[3][0], game[3][1], game[3][2], game[3][3], game[3][4], game[3][5]);
     printf("\n                                               -----------");
-    printf("\n                                          4    %d|%d|%d|%d|%d|%d", game[4][0], game[4][1], game[4][2], game[4][3], game[4][4], game[4][5]);
+    printf("\n                                          4    %c|%c|%c|%c|%c|%c", game[4][0], game[4][1], game[4][2], game[4][3], game[4][4], game[4][5]);
     printf("\n                                               -----------");
-    printf("\n                                          5    %d|%d|%d|%d|%d|%d", game[5][0], game[5][1], game[5][2], game[5][3], game[5][4], game[5][5]);
+    printf("\n                                          5    %c|%c|%c|%c|%c|%c", game[5][0], game[5][1], game[5][2], game[5][3], game[5][4], game[5][5]);
     printf("\n                                               -----------\n\n");
 }
 
@@ -143,7 +142,8 @@ void initializeGame()
     {
         for (j = 0; j < cols; j++)
         {
-            game[i][j] = 1 + rand() % 9;
+            int temp = 1 + (rand() % 9); 
+            game[i][j] = temp + '0'; 
         }
     }
 
@@ -163,3 +163,4 @@ void clearScreen()
     system("clear"); // Comando para limpar o terminal no Linux e macOS
 #endif
 }
+
