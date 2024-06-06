@@ -7,7 +7,26 @@
 #define rows 6
 #define cols 6
 
+void clearScreen(); // limpla terminal
 void initializeMatriz(int matriz[rows][cols]);// inicializa a matriz com números aleatórios
+void menu(int matriz[rows][cols]); // mostra o jogo atualizado na tela
+
+
+
+
+
+int main(){
+
+    int baseNumbers[rows][cols];
+    initializeMatriz(baseNumbers);
+
+    menu(baseNumbers);
+    clearScreen();
+    getchar();
+    menu(baseNumbers);
+    return 0;
+}
+
 void menu(int matriz[rows][cols]){
     printf("\n                                                  Números");
     printf("\n                                               0 1 2 3 4 5");
@@ -24,21 +43,6 @@ void menu(int matriz[rows][cols]){
     printf("\n                                          5    %d|%d|%d|%d|%d|%d",matriz[5][0],matriz[5][1],matriz[5][2],matriz[5][3],matriz[5][4],matriz[5][5]);
     printf("\n                                               -----------\n\n");
 }
-
-
-
-
-
-int main(){
-
-    int baseNumbers[rows][cols];
-    initializeMatriz(baseNumbers);
-    menu(baseNumbers);
-
-    return 0;
-}
-
-
 void initializeMatriz(int matriz[rows][cols]){
     int i =0, j =0;
     srand(time(NULL)); 
@@ -50,4 +54,11 @@ void initializeMatriz(int matriz[rows][cols]){
     }
     
     
+}
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls"); // Comando para limpar o terminal no Windows
+    #else
+        system("clear"); // Comando para limpar o terminal no Linux e macOS
+    #endif
 }
