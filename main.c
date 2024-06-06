@@ -3,30 +3,26 @@
 #include <time.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <string.h>
 
 #define rows 6
 #define cols 6
 
-char end  = ' '; //finalizar o jogo;
+int game[rows][cols];
+char end = ' '; //finalizar o jogo;
 int jogadas;
 char posicao[3];
-
 int posiX; //coordenada X para percorrer a matriz
-int posiY;//coordenada Y para percorrer a matriz
-    
+int posiY; //coordenada Y para percorrer a matriz
 
-void clearScreen(); // limpla terminal
-void initializeMatriz(int matriz[rows][cols]);// inicializa a matriz com números aleatórios
-void menu(int matriz[rows][cols]); // mostra o jogo atualizado na tela
-display(){
-    printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
-}
+void clearScreen(); // limpa terminal
+void initializeGame(); // inicializa a matriz com números aleatórios
+void menu(); // mostra o jogo atualizado na tela
+void display(); // declaração da função display()
 
+int main()
+{
 
-
-
-int main(){
-    
     //vetor com todas as posições possiveis da calculadora
     char posicoes[36][3] = {"00", "01", "02", "03", "04", "05",
                              "10", "11", "12", "13", "14", "15",
@@ -34,52 +30,118 @@ int main(){
                              "30", "31", "32", "33", "34", "35",
                              "40", "41", "42", "43", "44", "45",
                              "50", "51", "52", "53", "54", "55"};
-    
+
     //cria e inicializa o jogo
-    int game[rows][cols];
-    initializeMatriz(game);
+    initializeGame();
 
-    //laço principal do jogo inteiro
-    display();
-    menu(game);
+    while (true)
+    {
 
-   
+        //solicita as coordenadas ao usuário
+        while (true)
+        {
+            clearScreen();
+            menu();
+            display();
+
+            fgets(posicao, 3, stdin);
+            getchar();
+
+            // Verifica se todas as coordenadas são dígitos
+            bool coordenadasNumericas = true;
+            for (int i = 0; i < 2; i++)
+            {
+                if (!isdigit(posicao[i]))
+                {
+                    coordenadasNumericas = false;
+                    break;
+                }
+            }
+
+            if (!coordenadasNumericas)
+            {
+                printf("\nAs coordenadas devem ser numéricas!");
+                getchar(); // Para evitar que a mensagem seja imediatamente sobrescrita
+                continue;
+            }
+
+            bool posicaoExiste = false;
+
+            for (int z = 0; z < rows * cols; z++)
+            {
+                if (strcmp(posicao, posicoes[z]) == 0)
+                {
+                    posicaoExiste = true;
+
+                    posiX = posicao[0] - '0';
+                    posiY = posicao[1] - '0';
+                    break;
+                }
+            }
+
+            if (!posicaoExiste)
+            {
+                printf("\nDigito Errado! Favor digitar posição correspondente ao diagrama");
+            }else{
+                break;
+            }
+            
+        }
+
+        printf("\ncoordenadas:%s", posicao);
+        break;
+    }
 
     return 0;
 }
 
-void menu(int matriz[rows][cols]){
+void display()
+{
+    printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
+}
+
+void menu()
+{
     printf("\n                                                  Números");
     printf("\n                                               0 1 2 3 4 5");
-    printf("\n\n                                          0    %d|%d|%d|%d|%d|%d",matriz[0][0],matriz[0][1],matriz[0][2],matriz[0][3],matriz[0][4],matriz[0][5]);
+    printf("\n\n                                          0    %d|%d|%d|%d|%d|%d", game[0][0], game[0][1], game[0][2], game[0][3], game[0][4], game[0][5]);
     printf("\n                                               -----------");
-    printf("\n                                          1    %d|%d|%d|%d|%d|%d",matriz[1][0],matriz[1][1],matriz[1][2],matriz[1][3],matriz[1][4],matriz[1][5]);
+    printf("\n                                          1    %d|%d|%d|%d|%d|%d", game[1][0], game[1][1], game[1][2], game[1][3], game[1][4], game[1][5]);
     printf("\n                                               -----------");
-    printf("\n                                          2    %d|%d|%d|%d|%d|%d",matriz[2][0],matriz[2][1],matriz[2][2],matriz[2][3],matriz[2][4],matriz[2][5]);
+    printf("\n                                          2    %d|%d|%d|%d|%d|%d", game[2][0], game[2][1], game[2][2], game[2][3], game[2][4], game[2][5]);
     printf("\n                                               -----------");
-    printf("\n                                          3    %d|%d|%d|%d|%d|%d",matriz[3][0],matriz[3][1],matriz[3][2],matriz[3][3],matriz[3][4],matriz[3][5]);
+    printf("\n                                          3    %d|%d|%d|%d|%d|%d", game[3][0], game[3][1], game[3][2], game[3][3], game[3][4], game[3][5]);
     printf("\n                                               -----------");
-    printf("\n                                          4    %d|%d|%d|%d|%d|%d",matriz[4][0],matriz[4][1],matriz[4][2],matriz[4][3],matriz[4][4],matriz[4][5]);
+    printf("\n                                          4    %d|%d|%d|%d|%d|%d", game[4][0], game[4][1], game[4][2], game[4][3], game[4][4], game[4][5]);
     printf("\n                                               -----------");
-    printf("\n                                          5    %d|%d|%d|%d|%d|%d",matriz[5][0],matriz[5][1],matriz[5][2],matriz[5][3],matriz[5][4],matriz[5][5]);
+    printf("\n                                          5    %d|%d|%d|%d|%d|%d", game[5][0], game[5][1], game[5][2], game[5][3], game[5][4], game[5][5]);
     printf("\n                                               -----------\n\n");
 }
-void initializeMatriz(int matriz[rows][cols]){
-    int i =0, j =0;
-    srand(time(NULL)); 
 
-    for(i = 0; i< rows; i++){
-        for(j = 0; j< cols; j++){
-            matriz[i][j] = 1 + rand() % 9; 
+void initializeGame()
+{
+    int i = 0, j = 0;
+    srand(time(NULL));
+
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < cols; j++)
+        {
+            game[i][j] = 1 + rand() % 9;
         }
     }
-    
-    
+
+    jogadas = 0;
+
+    posiX = 0;
+    posiY = 0;
 }
-void clearScreen() {
-    #ifdef _WIN32
-        system("cls"); // Comando para limpar o terminal no Windows
-    #else
-        system("clear"); // Comando para limpar o terminal no Linux e macOS
-    #endif
+
+void clearScreen()
+{
+#ifdef _WIN32
+    system("cls"); // Comando para limpar o terminal no Windows
+#else
+    system("clear"); // Comando para limpar o terminal no Linux e macOS
+#endif
 }
