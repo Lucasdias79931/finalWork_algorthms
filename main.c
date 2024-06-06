@@ -7,23 +7,44 @@
 #define rows 6
 #define cols 6
 
+char end  = ' '; //finalizar o jogo;
+int jogadas;
+char posicao[3];
+
+int posiX; //coordenada X para percorrer a matriz
+int posiY;//coordenada Y para percorrer a matriz
+    
+
 void clearScreen(); // limpla terminal
 void initializeMatriz(int matriz[rows][cols]);// inicializa a matriz com números aleatórios
 void menu(int matriz[rows][cols]); // mostra o jogo atualizado na tela
-
+display(){
+    printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
+}
 
 
 
 
 int main(){
+    
+    //vetor com todas as posições possiveis da calculadora
+    char posicoes[36][3] = {"00", "01", "02", "03", "04", "05",
+                             "10", "11", "12", "13", "14", "15",
+                             "20", "21", "22", "23", "24", "25",
+                             "30", "31", "32", "33", "34", "35",
+                             "40", "41", "42", "43", "44", "45",
+                             "50", "51", "52", "53", "54", "55"};
+    
+    //cria e inicializa o jogo
+    int game[rows][cols];
+    initializeMatriz(game);
 
-    int baseNumbers[rows][cols];
-    initializeMatriz(baseNumbers);
+    //laço principal do jogo inteiro
+    display();
+    menu(game);
 
-    menu(baseNumbers);
-    clearScreen();
-    getchar();
-    menu(baseNumbers);
+   
+
     return 0;
 }
 
