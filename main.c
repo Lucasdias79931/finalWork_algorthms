@@ -17,8 +17,8 @@ int acertos;
 char posicao[3];
 int posiX; // coordenada X para percorrer a matriz
 int posiY; // coordenada Y para percorrer a matriz
-double numero1;
-double numero2;
+float numero1;
+float numero2;
 
 void clearScreen();       // limpa terminal
 void initializeGame();    // inicializa a matriz com números aleatórios
