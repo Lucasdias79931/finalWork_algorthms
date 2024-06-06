@@ -14,6 +14,8 @@ int jogadas;
 char posicao[3];
 int posiX; //coordenada X para percorrer a matriz
 int posiY; //coordenada Y para percorrer a matriz
+int numero1;
+int numero2;
 
 void clearScreen(); // limpa terminal
 void initializeGame(); // inicializa a matriz com números aleatórios
@@ -38,7 +40,8 @@ int main()
     {
 
         //solicita as coordenadas ao usuário
-        while (true)
+        int numeros =0; //para verificar se conseguio selecionar os dois números
+        while (numeros != 2)
         {
             clearScreen();
             menu();
@@ -81,15 +84,28 @@ int main()
 
             if (!posicaoExiste)
             {
-                printf("\nDigito Errado! Favor digitar posição correspondente ao diagrama");
-            }else{
-                break;
+                printf("\n                              Digito Errado! Favor digitar posição correspondente ao diagrama");
+                continue;
             }
+
+            int current = game[posiX][posiY];
+            
+            //verifica se o número está disponível e computa
+            if(current == 0){
+                printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
+                continue;
+            }else{
+                game[posiX][posiY] = 0;
+                numeros++;
+            }
+
+            if(numeros == 2)break;
             
         }
-
-        printf("\ncoordenadas:%s", posicao);
+        
+        menu();
         break;
+      
     }
 
     return 0;
@@ -133,6 +149,8 @@ void initializeGame()
 
     jogadas = 0;
 
+    numero1 = 0;
+    numero2 = 0;
     posiX = 0;
     posiY = 0;
 }
