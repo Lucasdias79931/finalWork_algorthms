@@ -23,8 +23,8 @@ void clearScreen();       // limpa terminal
 void initializeGame();    // inicializa a matriz com números aleatórios
 void menu();              // mostra o jogo atualizado na tela
 void display_coordenadas();           // declaração da função display_coordenadas
-void display_();
-
+void display_calculo();
+float calcular(int num1, int num2,char op);
 
 int main(){
 
@@ -39,10 +39,27 @@ int main(){
     // cria e inicializa o jogo
     initializeGame();
 
-
+    
     
     while (end == ' '){
 
+        while(true){
+            clearScreen();
+            menu();
+            display_calculo();
+            char op = getchar();
+            getchar();
+
+            if(op!='+' && op!='-' && op!='*' && op!='/' ){
+                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
+                getchar(); // pausar antes de voltar
+                continue;
+            }
+
+            break;
+        }
+        break;
+        
         // solicita as coordenadas ao usuário
         int numeros = 0; // para verificar se conseguiu selecionar os dois números
         while (numeros != 2){
@@ -111,12 +128,47 @@ int main(){
         }
         
         //solicita a operação
+        while(true){
+            clearScreen();
+            menu();
+            display_calculo();
+            char op = getchar();
+            getchar();
+
+            if(isdigit(op) != 0){
+                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
+                continue;
+            }
+
+        }
     }
    
 
     return 0;
 }
 
+float calcular(int num1, int num2, char op){
+    switch (op){
+    case '+':
+        return num1 + num2;
+        break;
+    case '-':
+        return num1 - num2;
+        break;
+    case '*':
+        return num1 * num2;
+        break;
+    case '/':
+        return num1 / num2;
+        break;
+    
+    }
+}
+
+void display_calculo(){
+    printf("\n                              (/) para dividir    (*) para multiplicar");
+    printf("\n                              (+) para somar      (-) para subtrair\n");
+}
 void display_coordenadas()
 {
     printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
