@@ -25,7 +25,7 @@ void initializeGame();    // inicializa a matriz com números aleatórios
 void menu();              // mostra o jogo atualizado na tela
 void display_coordenadas();           // declaração da função display_coordenadas
 void display_calculo();
-float calcular(int num1, int num2,char op);
+float calcular(float num1, float num2,char op);
 bool verificaResultado(float resultado, float resultadoUs);
 
 int main(){
@@ -106,6 +106,11 @@ int main(){
                 printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
                 continue;
             }else{
+                if(numeros == 0){
+                    numero1 = (float)(game[posiX][posiY] + '0');
+                }else{
+                    numero2 = (float)(game[posiX][posiY] + '0');
+                }
                 game[posiX][posiY] = ' ';
                 numeros++;
             }
@@ -132,11 +137,36 @@ int main(){
             break;
         }
    
-        //
-   
-   
-   
-   
+        //solicita ao usuário qual resultado do calculo
+       
+        float resp = calcular(numero1,numero2,operacao);
+        float resUser;
+        
+        printf("\n                              Qual Resultado da operação? ");
+            
+        while (true) {
+            printf("\nDigite: ");
+            char temp[5];
+            fgets(temp, 5, stdin);
+            char *end;
+            resUser = strtof(temp,&end);
+
+            if(*end == '\0' || *end== '\n')break;
+
+        }
+
+        if(verificaResultado(resp, resUser)){
+            acertos++;
+        }else{
+            erros++;
+        }
+        jogadas++;
+         
+        
+        printf("\n                              Digite 's' se quiser sair ");
+        scanf(" %c",&end);
+        if(end == 's' || end == "S" || jogadas >24 )break;    
+        
    
     }
    
@@ -149,7 +179,7 @@ bool verificaResultado(float resultado, float resultadoUs){
     return resultado == resultadoUs;
 }
 
-float calcular(int num1, int num2, char op){
+float calcular(float num1, float num2, char op){
     switch (op){
     case '+':
         return num1 + num2;
