@@ -1,1 +1,17 @@
 Trabalho final de algoritmos
+
+Esse é o Trabalho final da matéria de algoritmos;
+objetivo de usar todos as ferramentes aprendidas como funcoes, manipulaçõeos de strings e matrizes, laços de repetições 
+e controle de fluxo de código com condicionais para criar um mini jogo.
+
+
+
+
+                                            ALGORITMO:
+    0 - Inicio
+    1 - Criar uma matriz 6x6
+    2 - numa função, inicialize a matriz com números randomicos
+    3 - crie as variaveis de controle de fluxo
+        o jogo irá rodar em um loop while(true) até o fim
+    4 - crie a função menu para atualizar as informações para o usuário
+    
