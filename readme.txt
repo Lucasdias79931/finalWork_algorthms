@@ -16,6 +16,7 @@ e controle de fluxo de código com condicionais para criar um mini jogo.
     4 - crie a funções:
         4.1 display e menu para atualizar as informações para o usuário
         4.2 criar funcao operação
+        4.3 criar função para verificar se o usuário acertou o resultado da operacao
     5 - inicia o loop principal
         5.1 pede as coordenadas ao usuário
             5.1.1 faz o tratamento para verificar se apenas números foram digitados 
@@ -23,3 +24,6 @@ e controle de fluxo de código com condicionais para criar um mini jogo.
             5.2.1 5.2.1 faz o tratamento para ver se digitou apenas letra
         5.3 solicita ao usuário qual ele acha que é o resultado da operação
             5.3.1 faz o tratamento para ver se digitou apenas numeros e decimal
+          
+        5.4 verificar se o usuário acertou a conta
+            5.4.1 computar a jogada e atualizar as variaveis nescessárias

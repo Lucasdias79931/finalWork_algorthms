@@ -9,6 +9,7 @@
 #define cols 6
 
 char game[rows][cols];
+char operacao = ' '; // operação que o usuário vai escolher
 char end = ' '; // finalizar o jogo;
 int jogadas;
 int erros;
@@ -16,8 +17,8 @@ int acertos;
 char posicao[3];
 int posiX; // coordenada X para percorrer a matriz
 int posiY; // coordenada Y para percorrer a matriz
-int numero1;
-int numero2;
+double numero1;
+double numero2;
 
 void clearScreen();       // limpa terminal
 void initializeGame();    // inicializa a matriz com números aleatórios
@@ -25,6 +26,7 @@ void menu();              // mostra o jogo atualizado na tela
 void display_coordenadas();           // declaração da função display_coordenadas
 void display_calculo();
 float calcular(int num1, int num2,char op);
+bool verificaResultado(float resultado, float resultadoUs);
 
 int main(){
 
@@ -42,23 +44,9 @@ int main(){
     
     
     while (end == ' '){
-
-        while(true){
-            clearScreen();
-            menu();
-            display_calculo();
-            char op = getchar();
-            getchar();
-
-            if(op!='+' && op!='-' && op!='*' && op!='/' ){
-                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
-                getchar(); // pausar antes de voltar
-                continue;
-            }
-
-            break;
-        }
-        break;
+        
+        
+        
         
         // solicita as coordenadas ao usuário
         int numeros = 0; // para verificar se conseguiu selecionar os dois números
@@ -132,19 +120,33 @@ int main(){
             clearScreen();
             menu();
             display_calculo();
-            char op = getchar();
+            operacao = getchar();
             getchar();
 
-            if(isdigit(op) != 0){
+            if(operacao!='+' && operacao!='-' && operacao!='*' && operacao!='/' ){
                 printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
+                getchar(); // pausar antes de voltar
                 continue;
             }
 
+            break;
         }
+   
+        //
+   
+   
+   
+   
+   
     }
    
 
     return 0;
+}
+
+
+bool verificaResultado(float resultado, float resultadoUs){
+    return resultado == resultadoUs;
 }
 
 float calcular(int num1, int num2, char op){
@@ -207,6 +209,7 @@ void initializeGame()
         }
     }
 
+    operacao = ' ';
     end = ' ';
     jogadas = 0;
     acertos =0;
