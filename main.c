@@ -11,6 +11,8 @@
 char game[rows][cols];
 char end = ' '; // finalizar o jogo;
 int jogadas;
+int erros;
+int acertos;
 char posicao[3];
 int posiX; // coordenada X para percorrer a matriz
 int posiY; // coordenada Y para percorrer a matriz
@@ -20,7 +22,9 @@ int numero2;
 void clearScreen();       // limpa terminal
 void initializeGame();    // inicializa a matriz com números aleatórios
 void menu();              // mostra o jogo atualizado na tela
-void display();           // declaração da função display
+void display_coordenadas();           // declaração da função display_coordenadas
+void display_();
+
 
 int main(){
 
@@ -35,14 +39,16 @@ int main(){
     // cria e inicializa o jogo
     initializeGame();
 
-    while (true){
+
+    
+    while (end == ' '){
 
         // solicita as coordenadas ao usuário
         int numeros = 0; // para verificar se conseguiu selecionar os dois números
         while (numeros != 2){
             
             clearScreen();
-            display();
+            display_coordenadas();
             
             if(numeros == 0){
                 printf("\n                              para o primerio número");
@@ -99,17 +105,19 @@ int main(){
                 numeros++;
             }
 
-            if(numeros == 2)break;
+            if (numeros == 2)break;
                
             
         }
+        
+        //solicita a operação
     }
-    
+   
 
     return 0;
 }
 
-void display()
+void display_coordenadas()
 {
     printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
 }
@@ -147,12 +155,14 @@ void initializeGame()
         }
     }
 
+    end = ' ';
     jogadas = 0;
-
+    acertos =0;
     numero1 = 0;
     numero2 = 0;
     posiX = 0;
     posiY = 0;
+    erros =0;
 }
 
 void clearScreen()
