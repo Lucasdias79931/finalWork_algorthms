@@ -8,6 +8,14 @@
 #define ROWS 6
 #define COLS 6
 
+char posicoes[36][3] = {
+    "00", "01", "02", "03", "04", "05",
+    "10", "11", "12", "13", "14", "15",
+    "20", "21", "22", "23", "24", "25",
+    "30", "31", "32", "33", "34", "35",
+    "40", "41", "42", "43", "44", "45",
+    "50", "51", "52", "53", "54", "55"
+};
 char game[ROWS][COLS];
 char operacao = ' '; 
 char end = ' ';
@@ -27,21 +35,89 @@ void display_coordenadas();
 void display_calculo();
 float calcular(float num1, float num2, char op);
 bool verificaResultado(float resultado, float resultadoUs);
+void validaCoordenadas(); // valida as coordenadas escolhidas pelo jogador
 
 int main(){
-    char posicoes[36][3] = {
-        "00", "01", "02", "03", "04", "05",
-        "10", "11", "12", "13", "14", "15",
-        "20", "21", "22", "23", "24", "25",
-        "30", "31", "32", "33", "34", "35",
-        "40", "41", "42", "43", "44", "45",
-        "50", "51", "52", "53", "54", "55"
-    };
+   
 
     initializeGame();
 
     while (true){
-        int numeros = 0;
+
+
+        validaCoordenadas();
+
+        while (true){
+            clearScreen();
+            menu();
+            display_calculo();
+            operacao = getchar();
+            getchar();
+
+            if(operacao != '+' && operacao != '-' && operacao != '*' && operacao != '/'){
+                clearScreen();
+                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
+                getchar();
+                continue;
+            }
+            break;
+        }
+
+        float resp = calcular(numero1, numero2, operacao);
+        float resUser;
+
+        int tentativas = 0;
+       
+        while (true) {
+            
+            printf("\n                              Qual Resultado da operação? ");
+            char temp[10]; // Aumentado para evitar overflow
+            fgets(temp, 10, stdin);
+            char *endPtr;
+            resUser = strtof(temp, &endPtr);
+            tentativas++;
+
+            if(endPtr != temp){
+                clearScreen();
+                if(verificaResultado(resp, resUser)){
+                    acertos++;
+                    break;
+                } else {
+                    clearScreen();    
+                    printf("\n                              Qual Resultado da operação? ");
+                    getchar();
+                    erros++;
+                }
+            }
+
+            if(tentativas >= 3){
+                clearScreen();
+                printf("\n                              's' para pedir a resposta");
+                char op = getchar();
+                getchar();
+                if(op == 's' || op == 'S'){
+                    printf("\n                              Resposta correta: %f", resp);
+                    getchar();
+                    
+                    acertos++;
+                    break;
+                }
+            }
+        }
+
+        jogadas++;
+
+        printf("\n                              Digite 's' se quiser sair ");
+        scanf(" %c", &end);
+        if(end == 's' || end == 'S' || jogadas > 24) break;
+    }
+
+    return 0;
+}
+
+
+void validaCoordenadas(){
+    int numeros = 0;
         while (numeros != 2){
             clearScreen();
             display_coordenadas();
@@ -103,68 +179,10 @@ int main(){
                 numeros++;
             }
         }
-
-        while (true){
-            clearScreen();
-            menu();
-            display_calculo();
-            operacao = getchar();
-            getchar();
-
-            if(operacao != '+' && operacao != '-' && operacao != '*' && operacao != '/'){
-                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
-                getchar();
-                continue;
-            }
-            break;
-        }
-
-        float resp = calcular(numero1, numero2, operacao);
-        float resUser;
-
-        int tentativas = 0;
-        printf("\n                              Qual Resultado da operação? ");
-        
-        while (true) {
-            printf("\nDigite: ");
-            char temp[10]; // Aumentado para evitar overflow
-            fgets(temp, 10, stdin);
-            char *endPtr;
-            resUser = strtof(temp, &endPtr);
-            tentativas++;
-
-            if(endPtr != temp){
-                clearScreen();
-                if(verificaResultado(resp, resUser)){
-                    acertos++;
-                    break;
-                } else {
-                    erros++;
-                }
-            }
-
-            if(tentativas >= 3){
-                clearScreen();
-                printf("\n                              's' para pedir a resposta");
-                char op = getchar();
-                getchar();
-                if(op == 's' || op == 'S'){
-                    printf("\n                              Resposta correta: %f", resp);
-                    getchar();
-                    jogadas++;
-                    acertos++;
-                    break;
-                }
-            }
-        }
-
-        printf("\n                              Digite 's' se quiser sair ");
-        scanf(" %c", &end);
-        if(end == 's' || end == 'S' || jogadas > 24) break;
-    }
-
-    return 0;
 }
+
+
+
 
 bool verificaResultado(float resultado, float resultadoUs){
     const float epsilon = 0.0001;
@@ -177,7 +195,7 @@ float calcular(float num1, float num2, char op){
         case '-': return num1 - num2;
         case '*': return num1 * num2;
         case '/': return num1 / num2;
-        default: return 0; // Esta linha nunca deve ser alcançada
+        default: return 0; 
     }
 }
 

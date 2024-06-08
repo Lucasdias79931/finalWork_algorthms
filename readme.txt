@@ -27,3 +27,5 @@ e controle de fluxo de código com condicionais para criar um mini jogo.
           
         5.4 verificar se o usuário acertou a conta
             5.4.1 computar a jogada e atualizar as variaveis nescessárias
+        5.5 mostrar os resultados finais ao usuário
+    fim
