@@ -36,6 +36,8 @@ void display_calculo();
 float calcular(float num1, float num2, char op);
 bool verificaResultado(float resultado, float resultadoUs);
 void validaCoordenadas(); // valida as coordenadas escolhidas pelo jogador
+void setOperacao(); // valida a escolha da operação
+void validaResposta();
 
 int main(){
    
@@ -47,7 +49,90 @@ int main(){
 
         validaCoordenadas();
 
-        while (true){
+        setOperacao();
+       
+        validaResposta();
+       
+       
+        
+
+        jogadas++;
+        printf("\n                              Digite 's' se quiser sair ");
+        scanf(" %c", &end);
+        if(end == 's' || end == 'S' || jogadas > 24) break;
+    }
+
+    return 0;
+}
+
+
+void validaCoordenadas(){
+    int numeros = 0;
+    while (numeros != 2){
+        clearScreen();
+        display_coordenadas();
+
+        if(numeros == 0){
+            printf("\n                              para o primerio número");
+        } else {
+            printf("\n                              para o segundo número\n");
+        }
+
+        menu();
+
+        fgets(posicao, 3, stdin);
+        getchar();
+
+        bool coordenadasNumericas = true;
+        for (int i = 0; i < 2; i++){
+            if(!isdigit(posicao[i])){
+                coordenadasNumericas = false;
+                break;
+            }
+        }
+
+        if (!coordenadasNumericas){
+            printf("\n                              As coordenadas devem ser numéricas!");
+            getchar();
+            continue;
+        }
+
+        bool posicaoExiste = false;
+        for (int z = 0; z < ROWS * COLS; z++){
+            if (strcmp(posicao, posicoes[z]) == 0){
+                posicaoExiste = true;
+                posiX = posicao[0] - '0';
+                posiY = posicao[1] - '0';
+                break;
+            }
+        }
+
+        if (!posicaoExiste){
+            printf("\n                              Digito Errado! Favor digitar posição correspondente ao diagrama");
+            getchar();
+            continue;
+        }
+
+        char current = game[posiX][posiY];
+
+        if (current == ' '){
+            printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
+            getchar();
+            continue;
+        } else {
+            if(numeros == 0){
+                numero1 = (float)(current - '0');
+            } else {
+                numero2 = (float)(current - '0');
+            }
+            game[posiX][posiY] = ' ';
+            numeros++;
+        }
+    }
+}
+
+void setOperacao(){
+     while (true){
             clearScreen();
             menu();
             display_calculo();
@@ -62,126 +147,50 @@ int main(){
             }
             break;
         }
-
-        float resp = calcular(numero1, numero2, operacao);
-        float resUser;
-
-        int tentativas = 0;
-       
-        while (true) {
-            
-            printf("\n                              Qual Resultado da operação? ");
-            char temp[10]; // Aumentado para evitar overflow
-            fgets(temp, 10, stdin);
-            char *endPtr;
-            resUser = strtof(temp, &endPtr);
-            tentativas++;
-
-            if(endPtr != temp){
-                clearScreen();
-                if(verificaResultado(resp, resUser)){
-                    acertos++;
-                    break;
-                } else {
-                    clearScreen();    
-                    printf("\n                              Qual Resultado da operação? ");
-                    getchar();
-                    erros++;
-                }
-            }
-
-            if(tentativas >= 3){
-                clearScreen();
-                printf("\n                              's' para pedir a resposta");
-                char op = getchar();
-                getchar();
-                if(op == 's' || op == 'S'){
-                    printf("\n                              Resposta correta: %f", resp);
-                    getchar();
-                    
-                    acertos++;
-                    break;
-                }
-            }
-        }
-
-        jogadas++;
-
-        printf("\n                              Digite 's' se quiser sair ");
-        scanf(" %c", &end);
-        if(end == 's' || end == 'S' || jogadas > 24) break;
-    }
-
-    return 0;
 }
 
+void validaResposta(){
+    float resp = calcular(numero1, numero2, operacao);
+    float resUser;
 
-void validaCoordenadas(){
-    int numeros = 0;
-        while (numeros != 2){
+    int tentativas = 0;
+    while (true) {
+        
+        printf("\n                              Qual Resultado da operação? ");
+        char temp[10]; // Aumentado para evitar overflow
+        fgets(temp, 10, stdin);
+        char *endPtr;
+        resUser = strtof(temp, &endPtr);
+        tentativas++;
+
+        if(endPtr != temp){
             clearScreen();
-            display_coordenadas();
-
-            if(numeros == 0){
-                printf("\n                              para o primerio número");
+            if(verificaResultado(resp, resUser)){
+                acertos++;
+                break;
             } else {
-                printf("\n                              para o segundo número\n");
-            }
-
-            menu();
-
-            fgets(posicao, 3, stdin);
-            getchar();
-
-            bool coordenadasNumericas = true;
-            for (int i = 0; i < 2; i++){
-                if(!isdigit(posicao[i])){
-                    coordenadasNumericas = false;
-                    break;
-                }
-            }
-
-            if (!coordenadasNumericas){
-                printf("\n                              As coordenadas devem ser numéricas!");
+                clearScreen();    
+                printf("\n                              Qual Resultado da operação? ");
                 getchar();
-                continue;
-            }
-
-            bool posicaoExiste = false;
-            for (int z = 0; z < ROWS * COLS; z++){
-                if (strcmp(posicao, posicoes[z]) == 0){
-                    posicaoExiste = true;
-                    posiX = posicao[0] - '0';
-                    posiY = posicao[1] - '0';
-                    break;
-                }
-            }
-
-            if (!posicaoExiste){
-                printf("\n                              Digito Errado! Favor digitar posição correspondente ao diagrama");
-                getchar();
-                continue;
-            }
-
-            char current = game[posiX][posiY];
-
-            if (current == ' '){
-                printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
-                getchar();
-                continue;
-            } else {
-                if(numeros == 0){
-                    numero1 = (float)(current - '0');
-                } else {
-                    numero2 = (float)(current - '0');
-                }
-                game[posiX][posiY] = ' ';
-                numeros++;
+                erros++;
             }
         }
+
+        if(tentativas >= 3){
+            clearScreen();
+            printf("\n                              's' para pedir a resposta");
+            char op = getchar();
+            getchar();
+            if(op == 's' || op == 'S'){
+                printf("\n                              Resposta correta: %f", resp);
+                getchar();
+                
+                acertos++;
+                break;
+            }
+        }
+    }
 }
-
-
 
 
 bool verificaResultado(float resultado, float resultadoUs){
