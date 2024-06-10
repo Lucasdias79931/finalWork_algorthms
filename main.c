@@ -41,7 +41,13 @@ bool verificaResultado(float resultado, float resultadoUs);
 
 
 int main(){
-   
+    char operacoes[25];
+    int k = 0;
+    int i = 0;
+
+    for(i = 0; i < 24; i++){
+        operacoes[k] = ' ';
+    }
 
     initializeGame();
 
@@ -124,7 +130,20 @@ int main(){
                 getchar();
                 continue;
             }
-            break;
+
+            int cont = 0;
+            int w = 0;
+            for(w = 0; w < 24; w++){
+                if(operacao == operacoes[w])cont++;
+            }
+
+            if(cont == 6){
+                printf("\n                     A operação já foi usada muitas vezes! Escolha outra das 4 operações");
+                
+            }else{
+                break;
+            }
+            
         }
        
         float resp = calcular(numero1, numero2, operacao);
@@ -136,6 +155,7 @@ int main(){
             printf("\n                              Qual Resultado da operação? ");
             char temp[10]; 
             fgets(temp, 10, stdin);
+            getchar();
             char *endPtr;
             resUser = strtof(temp, &endPtr);
             tentativas++;
@@ -144,11 +164,12 @@ int main(){
                 clearScreen();
                 if(verificaResultado(resp, resUser)){
                     acertos++;
+                    jogadas++;
                     break;
                 } else {
                     clearScreen();    
-                    printf("\n                              Qual Resultado da operação? ");
-                    getchar();
+                    printf("\n                              Resposta Errada! ");
+                    jogadas++;
                     erros++;
                 }
             }
@@ -159,10 +180,12 @@ int main(){
                 char op = getchar();
                 getchar();
                 if(op == 's' || op == 'S'){
-                    printf("\n                              Resposta correta: %f", resp);
+                    printf("\n                              Resposta correta: %2f", resp);
                     getchar();
-                
                     acertos++;
+                    
+                    break;
+                }else{
                     break;
                 }
             }
@@ -171,9 +194,10 @@ int main(){
        
         
 
-        jogadas++;
+       
         printf("\n                              Digite 's' se quiser sair ");
-        scanf(" %c", &end);
+        end = getchar();
+        getchar();
         if(end == 's' || end == 'S' || jogadas > 24) break;
     }
 
