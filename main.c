@@ -198,8 +198,22 @@ int main(){
         printf("\n                              Digite 's' se quiser sair ");
         end = getchar();
         getchar();
-        if(end == 's' || end == 'S' || jogadas > 24) break;
+        if(end == 's' || end == 'S' || jogadas == 24) break;
     }
+
+
+    if(acertos == 18){
+
+        printf("\n                              Vitória ");
+        printf("\n                              Jogadas:%d",jogadas);
+        printf("\n                              Erros:%d",erros);
+    }else{
+
+        printf("\n                              Derrota");
+        printf("\n                              Jogadas:%d",jogadas);
+        printf("\n                              Acertos:%d",acertos);
+    }
+
 
     return 0;
 }
