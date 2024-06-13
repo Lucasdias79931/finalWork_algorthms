@@ -4,6 +4,11 @@
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
+
+#define RESET "\033[0m"
+#define MAGENTA "\033[35m"
+#define RED "\033[31m"
 
 //linhas e colunas da matriz 
 #define ROWS 6
@@ -41,11 +46,11 @@ bool verificaResultado(float resultado, float resultadoUs);
 
 
 int main(){
-    char operacoes[25];
+    char operacoes[21];
     int k = 0;
     int i = 0;
 
-    for(i = 0; i < 24; i++){
+    for(i = 0; i < 20; i++){
         operacoes[k] = ' ';
     }
 
@@ -133,11 +138,11 @@ int main(){
 
             int cont = 0;
             int w = 0;
-            for(w = 0; w < 24; w++){
+            for(w = 0; w < 20; w++){
                 if(operacao == operacoes[w])cont++;
             }
 
-            if(cont == 6){
+            if(cont == 5){
                 printf("\n                     A operação já foi usada muitas vezes! Escolha outra das 4 operações");
                 
             }else{
@@ -267,9 +272,9 @@ void display_coordenadas(){
 
 void menu(){
     printf("\n                                                  Números");
-    printf("\n                                               0 1 2 3 4 5");
+    printf(MAGENTA"\n                                               0 1 2 3 4 5"RESET);
     for (int i = 0; i < ROWS; i++) {
-        printf("\n                                          %d    %c|%c|%c|%c|%c|%c", i, game[i][0], game[i][1], game[i][2], game[i][3], game[i][4], game[i][5]);
+        printf(RED"\n                                          %d    %c|%c|%c|%c|%c|%c", i, game[i][0], game[i][1], game[i][2], game[i][3], game[i][4], game[i][5],RESET);
         if (i < ROWS - 1) printf("\n                                               -----------");
     }
     printf("\n\n");
