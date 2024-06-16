@@ -9,6 +9,8 @@
 #define RESET "\033[0m"
 #define MAGENTA "\033[35m"
 #define RED "\033[31m"
+#define CYAN "\033[36m"
+#define YELLOW "\033[33m"
 
 //linhas e colunas da matriz 
 #define ROWS 6
@@ -46,11 +48,11 @@ bool verificaResultado(float resultado, float resultadoUs);
 
 
 int main(){
-    char operacoes[21];
+    char operacoes[18];
     int k = 0;
     int i = 0;
 
-    for(i = 0; i < 20; i++){
+    for(i = 0; i < 18; i++){
         operacoes[k] = ' ';
     }
 
@@ -65,9 +67,9 @@ int main(){
             display_coordenadas();
 
             if(numeros == 0){
-                printf("\n                              para o primerio número");
+                printf(MAGENTA"\n                              para o primerio número",RESET);
             } else {
-                printf("\n                              para o segundo número\n");
+                printf(MAGENTA"\n                              para o segundo número\n",RESET);
             }
 
             menu();
@@ -84,7 +86,7 @@ int main(){
             }
 
             if (!coordenadasNumericas){
-                printf("\n                              As coordenadas devem ser numéricas!");
+                printf(MAGENTA"\n                              As coordenadas devem ser numéricas!"RESET);
                 getchar();
                 continue;
             }
@@ -100,7 +102,7 @@ int main(){
             }
 
             if (!posicaoExiste){
-                printf("\n                              Digito Errado! Favor digitar posição correspondente ao diagrama");
+                printf(MAGENTA"\n                              Digito Errado! Favor digitar posição correspondente ao diagrama",RESET);
                 getchar();
                 continue;
             }
@@ -108,7 +110,7 @@ int main(){
             char current = game[posiX][posiY];
 
             if (current == ' '){
-                printf("\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama");
+                printf(MAGENTA"\n                              Digito não está disponível! Favor digitar posição correspondente ao diagrama",RESET);
                 getchar();
                 continue;
             } else {
@@ -123,6 +125,7 @@ int main(){
         }
 
         while (true){
+
             clearScreen();
             menu();
             display_calculo();
@@ -131,21 +134,24 @@ int main(){
 
             if(operacao != '+' && operacao != '-' && operacao != '*' && operacao != '/'){
                 clearScreen();
-                printf("\n                              Digito Errado! Escolha apenas uma das 4 operações");
+                printf(MAGENTA"\n                              Digito Errado! Escolha apenas uma das 4 operações",RESET);
                 getchar();
                 continue;
             }
 
             int cont = 0;
             int w = 0;
-            for(w = 0; w < 20; w++){
+            for(w = 0; w < 18; w++){
                 if(operacao == operacoes[w])cont++;
             }
 
             if(cont == 5){
-                printf("\n                     A operação já foi usada muitas vezes! Escolha outra das 4 operações");
+                printf(MAGENTA"\n                     A operação já foi usada muitas vezes! Escolha outra das 4 operações",RESET);
                 
             }else{
+                operacoes[k++] = operacao;
+
+                printf(MAGENTA"\n                     Você escolheu a operação '%c' %d Vezes",operacao,cont + 1,RESET);
                 break;
             }
             
@@ -157,7 +163,7 @@ int main(){
         int tentativas = 0;
         while (true) {
         
-            printf("\n                              Qual Resultado da operação? ");
+            printf(MAGENTA"\n                              Qual Resultado da operação? ",RESET);
             char temp[10]; 
             fgets(temp, 10, stdin);
             getchar();
@@ -173,7 +179,7 @@ int main(){
                     break;
                 } else {
                     clearScreen();    
-                    printf("\n                              Resposta Errada! ");
+                    printf(MAGENTA"\n                              Resposta Errada! TENTE NOVAMENTE! ",RESET);
                     jogadas++;
                     erros++;
                 }
@@ -181,11 +187,11 @@ int main(){
 
             if(tentativas >= 3){
                 clearScreen();
-                printf("\n                              's' para pedir a resposta");
+                printf(MAGENTA"\n                              's' para pedir a resposta",RESET);
                 char op = getchar();
                 getchar();
                 if(op == 's' || op == 'S'){
-                    printf("\n                              Resposta correta: %2f", resp);
+                    printf(MAGENTA"\n                              Resposta correta: %.2f", resp,RESET);
                     getchar();
                     acertos++;
                     
@@ -199,25 +205,28 @@ int main(){
        
         
 
-       
-        printf("\n                              Digite 's' se quiser sair ");
+        clearScreen();
+        printf(MAGENTA"\n                              Digite 's' se quiser sair ",RESET);
         end = getchar();
         getchar();
         if(end == 's' || end == 'S' || jogadas == 24) break;
     }
 
+    clearScreen();
 
     if(acertos == 18){
 
-        printf("\n                              Vitória ");
-        printf("\n                              Jogadas:%d",jogadas);
-        printf("\n                              Erros:%d",erros);
+        printf(MAGENTA"\n                              Vitória ",RESET);
+        printf(MAGENTA"\n                              Jogadas:%d",jogadas,RESET);
+        printf(MAGENTA"\n                              Erros:%d",erros,RESET);
     }else{
 
-        printf("\n                              Derrota");
-        printf("\n                              Jogadas:%d",jogadas);
-        printf("\n                              Acertos:%d",acertos);
+        printf(MAGENTA"\n                              Derrota",RESET);
+        printf(MAGENTA"\n                              Jogadas:%d",jogadas,RESET);
+        printf(MAGENTA"\n                              Acertos:%d",acertos,RESET);
     }
+
+    printf("\n\n");
 
 
     return 0;
@@ -262,29 +271,30 @@ float calcular(float num1, float num2, char op){
 }
 
 void display_calculo(){
-    printf("\n                              (/) para dividir    (*) para multiplicar");
-    printf("\n                              (+) para somar      (-) para subtrair\n");
+    printf(MAGENTA"\n                              (/) para dividir    (*) para multiplicar",RESET);
+    printf(MAGENTA"\n                              (+) para somar      (-) para subtrair\n",RESET);
 }
 
 void display_coordenadas(){
-    printf("\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:");
+    printf(MAGENTA"\n                              Digite a posição (entre 00 e 55) de acordo com o diagrama:",RESET);
 }
 
 void menu(){
-    printf("\n                                                  Números");
-    printf(MAGENTA"\n                                               0 1 2 3 4 5"RESET);
+    printf(YELLOW"\n                                                  Números",RESET);
+    printf(YELLOW"\n                                               0 1 2 3 4 5",RESET);
     for (int i = 0; i < ROWS; i++) {
-        printf(RED"\n                                          %d    %c|%c|%c|%c|%c|%c", i, game[i][0], game[i][1], game[i][2], game[i][3], game[i][4], game[i][5],RESET);
-        if (i < ROWS - 1) printf("\n                                               -----------");
+        printf(YELLOW"\n                                           %d",i,RESET);
+        printf(MAGENTA"   %c|%c|%c|%c|%c|%c", game[i][0], game[i][1], game[i][2], game[i][3], game[i][4], game[i][5],RESET);
+        if (i < ROWS - 1) printf(CYAN"\n                                               -----------"RESET);
     }
     printf("\n\n");
 }
 
 
 void clearScreen(){
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
