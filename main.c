@@ -37,7 +37,11 @@ int posiY;
 float numero1;
 float numero2;
 
-
+void menuIni(){
+    printf(MAGENTA"\n\n\n\n                                         Olá, Jogador!\xF0\x9F\x98\x8A\xF0\x9F\x98\x8A",RESET);
+    printf(MAGENTA"\n                         Pressione qualquer tecla para iniciar o Game",RESET);
+    getchar();
+}
 void clearScreen();       
 void initializeGame();    
 void menu();              
@@ -57,7 +61,7 @@ int main(){
     }
 
     initializeGame();
-
+    menuIni();
     while (true){
 
 
@@ -187,7 +191,7 @@ int main(){
 
             if(tentativas >= 3){
                 clearScreen();
-                printf(MAGENTA"\n                              's' para pedir a resposta",RESET);
+                printf(MAGENTA"\n                              's' para pedir a resposta: ",RESET);
                 char op = getchar();
                 getchar();
                 if(op == 's' || op == 'S'){
@@ -211,7 +215,6 @@ int main(){
         getchar();
         if(end == 's' || end == 'S' || jogadas == 24) break;
     }
-
     clearScreen();
 
     if(acertos == 18){
