@@ -25,6 +25,7 @@ char posicoes[36][3] = {
     "40", "41", "42", "43", "44", "45",
     "50", "51", "52", "53", "54", "55"
 };
+
 char game[ROWS][COLS];
 char operacao = ' '; 
 char end = ' ';
@@ -37,11 +38,7 @@ int posiY;
 float numero1;
 float numero2;
 
-void menuIni(){
-    printf(MAGENTA"\n\n\n\n                                         Olá, Jogador!\xF0\x9F\x98\x8A\xF0\x9F\x98\x8A",RESET);
-    printf(MAGENTA"\n                         Pressione qualquer tecla para iniciar o Game",RESET);
-    getchar();
-}
+void menuIni();
 void clearScreen();       
 void initializeGame();    
 void menu();              
@@ -180,6 +177,8 @@ int main(){
                 if(verificaResultado(resp, resUser)){
                     acertos++;
                     jogadas++;
+                    clearScreen();    
+                    printf(MAGENTA"\n                              Acertou! ",RESET);
                     break;
                 } else {
                     clearScreen();    
@@ -219,7 +218,7 @@ int main(){
 
     if(acertos == 18){
 
-        printf(MAGENTA"\n                              Vitória ",RESET);
+        printf(MAGENTA"\n                              Vitória \xF0\x9F\x98\x8A\xF0\x9F\x98\x8A\xF0\x9F\x98\x8A",RESET);
         printf(MAGENTA"\n                              Jogadas:%d",jogadas,RESET);
         printf(MAGENTA"\n                              Erros:%d",erros,RESET);
     }else{
@@ -233,6 +232,12 @@ int main(){
 
 
     return 0;
+}
+
+void menuIni(){
+    printf(MAGENTA"\n\n\n\n                                         Olá, Jogador \xF0\x9F\x98\x8A\xF0\x9F\x98\x8A\xF0\x9F\x98\x8A");
+    printf("\n                               Pressione Enter para iniciar o Game",RESET);
+    getchar();
 }
 
 void initializeGame(){
@@ -259,23 +264,26 @@ void initializeGame(){
 
 
 bool verificaResultado(float resultado, float resultadoUs){
-    const float epsilon = 0.0001;
-    return fabs(resultado - resultadoUs) < epsilon;
+    return resultado == resultadoUs;
 }
 
 float calcular(float num1, float num2, char op){
     switch (op){
         case '+': return num1 + num2;
+            break;
         case '-': return num1 - num2;
+            break;
         case '*': return num1 * num2;
+            break;
         case '/': return num1 / num2;
-        default: return 0; 
+            break;
+       
     }
 }
 
 void display_calculo(){
-    printf(MAGENTA"\n                              (/) para dividir    (*) para multiplicar",RESET);
-    printf(MAGENTA"\n                              (+) para somar      (-) para subtrair\n",RESET);
+    printf(MAGENTA"\n                              (/) para dividir    (*) para multiplicar");
+    printf("\n                              (+) para somar      (-) para subtrair\n",RESET);
 }
 
 void display_coordenadas(){
@@ -283,8 +291,8 @@ void display_coordenadas(){
 }
 
 void menu(){
-    printf(YELLOW"\n                                                  Números",RESET);
-    printf(YELLOW"\n                                               0 1 2 3 4 5",RESET);
+    printf(YELLOW"\n                                                  Números");
+    printf("\n                                               0 1 2 3 4 5"RESET);
     for (int i = 0; i < ROWS; i++) {
         printf(YELLOW"\n                                           %d",i,RESET);
         printf(MAGENTA"   %c|%c|%c|%c|%c|%c", game[i][0], game[i][1], game[i][2], game[i][3], game[i][4], game[i][5],RESET);
@@ -301,3 +309,4 @@ void clearScreen(){
         system("clear");
     #endif
 }
+
