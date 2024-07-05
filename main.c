@@ -120,7 +120,7 @@ int main(){
                 } else {
                     numero2 = (float)(current);
                 }
-                game[posiX][posiY] = -1;
+                game[posiX][posiY] = 0;
                 numeros++;
             }
         }
